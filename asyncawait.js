@@ -68,8 +68,7 @@ const prom2 = new Promise((resolve,reject)=>{
   setTimeout(()=>resolve("Prom 2 resolved"),10000);
 });
 
-async function asyncAwait(){
-  //In function getData() (without async) it doesn't wait for promise to resolve
+//In function getData() (without async) it doesn't wait for promise to resolve
   //But here using async & await, JS engine waits for the promise to fulfill and then it goes to next line
   /* 2 scenarios: 
     -> when prom1 is set to 10 sec and prom2 is set to 5 sec
@@ -79,7 +78,14 @@ async function asyncAwait(){
       So considering the flow of program prom1 is called first, prom1 will get resolved and prints it, it doesn't have to wait for prom2
       Then prom2 it will get to next line and prints prom2 lines
       Here first prom1 lines are printed at 5 sec and prom2 will be printed at 10 sec
+
+      Another thing to remember:
+      when the function asyncAwait() is in call stack,
+      execution gets to the line await promise, then the promise needs to be fulfilled, until then the function itself is suspended from call stack.
+      when the promise is fulfilled, the JS call stack will immediately execute the next lines of the function.
   */
+async function asyncAwait(){
+  console.log("async await");
   const val = await prom1;
   console.log("TanujVeera")
   console.log(val);
